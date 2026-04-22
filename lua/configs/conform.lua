@@ -13,6 +13,9 @@ local options = {
     -- Vue/Nuxt
     vue = { "prettier" },
 
+    -- Svelte/SvelteKit
+    svelte = { "prettier" },
+
     -- Rust
     rust = { "rustfmt" },
 

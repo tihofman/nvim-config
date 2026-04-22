@@ -9,6 +9,7 @@ local servers = {
   -- JavaScript/TypeScript/Node
   "ts_ls",  -- TypeScript/JavaScript
   "vue_ls",  -- Vue/Nuxt
+  "svelte",  -- Svelte/SvelteKit
 
   -- Java/JVM
   -- Note: jdtls is configured separately below (installed via mason)

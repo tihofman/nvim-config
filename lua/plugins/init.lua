@@ -53,10 +53,12 @@ return {
   		ensure_installed = {
   			"vim", "lua", "vimdoc",
        "html", "css",
-       -- JavaScript/TypeScript/Node
+       -- JavaScript/TypeScript/Node/React
        "javascript", "typescript", "tsx", "jsdoc",
        -- Vue/Nuxt
        "vue",
+       -- Svelte/SvelteKit
+       "svelte",
        -- Java/JVM
        "java", "kotlin",
        -- Rust
