@@ -72,6 +72,30 @@ vim.opt.rtp:prepend(lazypath)
 
 local lazy_config = require "configs.lazy"
 
+-- Work around a Neovim 0.12 + older nvim-treesitter mismatch where some
+-- query captures arrive as lists instead of TSNode objects. Neovim's runtime
+-- then calls :range() on the list and the highlighter crashes.
+do
+  local ts = vim.treesitter
+
+  local function normalize_tsnode(node)
+    if type(node) == "table" and type(node.range) ~= "function" then
+      return node[1]
+    end
+    return node
+  end
+
+  local orig_get_range = ts.get_range
+  ts.get_range = function(node, source, metadata)
+    return orig_get_range(normalize_tsnode(node), source, metadata)
+  end
+
+  local orig_get_node_text = ts.get_node_text
+  ts.get_node_text = function(node, source, opts)
+    return orig_get_node_text(normalize_tsnode(node), source, opts)
+  end
+end
+
 -- load plugins
 require("lazy").setup({
   {

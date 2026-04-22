@@ -45,6 +45,9 @@ return {
   },
   { import = "nvchad.blink.lazyspec" },
   {
+    "aznhe21/actions-preview.nvim",
+  },
+  {
   	"nvim-treesitter/nvim-treesitter",
   	opts = {
   		ensure_installed = {
