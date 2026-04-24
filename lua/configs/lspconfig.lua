@@ -68,10 +68,9 @@ if not java_setup_ok then
     vim.log.levels.WARN
   )
 else
-  -- Setup jdtls (enhanced by nvim-java if setup succeeded)
-  -- jdtls is installed via mason
-  local lspconfig = require("lspconfig")
-  lspconfig.jdtls.setup({
+  -- nvim-java registers the base jdtls config via vim.lsp.config().
+  -- Extend that config with local overrides, then enable the server.
+  vim.lsp.config("jdtls", {
     on_attach = require("nvchad.configs.lspconfig").on_attach,
     capabilities = require("nvchad.configs.lspconfig").capabilities,
 
@@ -97,6 +96,8 @@ else
       ['language/status'] = function() end,
     },
   })
+
+  vim.lsp.enable("jdtls")
 end
 
 -- read :h vim.lsp.config for changing options of lsp servers

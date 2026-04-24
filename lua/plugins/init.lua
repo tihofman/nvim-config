@@ -8,11 +8,6 @@ return {
     'nvim-java/nvim-java',
     lazy = false,  -- Load on startup (patch is applied in init.lua)
     dependencies = {
-      'nvim-java/lua-async-await',
-      'nvim-java/nvim-java-core',
-      'nvim-java/nvim-java-test',
-      'nvim-java/nvim-java-dap',
-      'nvim-java/nvim-java-refactor',
       'MunifTanjim/nui.nvim',
       'neovim/nvim-lspconfig',
       'mfussenegger/nvim-dap',
@@ -46,6 +41,41 @@ return {
   { import = "nvchad.blink.lazyspec" },
   {
     "aznhe21/actions-preview.nvim",
+  },
+  {
+    "sindrets/diffview.nvim",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewFileHistory",
+      "DiffviewToggleFiles",
+      "DiffviewFocusFiles",
+      "DiffviewRefresh",
+    },
+    opts = {
+      view = {
+        merge_tool = {
+          layout = "diff3_horizontal",
+        },
+      },
+      file_panel = {
+        listing_style = "tree",
+      },
+    },
+  },
+  {
+    "NeogitOrg/neogit",
+    cmd = "Neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
+    opts = {
+      integrations = {
+        diffview = true,
+      },
+      disable_commit_confirmation = true,
+    },
   },
   {
   	"nvim-treesitter/nvim-treesitter",
