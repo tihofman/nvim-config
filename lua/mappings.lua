@@ -21,6 +21,39 @@ map("n", "<leader>gh", "<cmd>DiffviewFileHistory %<CR>", { desc = "Git file hist
 map("n", "<leader>gH", "<cmd>DiffviewFileHistory<CR>", { desc = "Git repo history" })
 map("n", "<leader>gg", "<cmd>Neogit<CR>", { desc = "Neogit status" })
 
+-- Tests
+map("n", "<leader>ts", function()
+  require("neotest").summary.toggle()
+end, { desc = "Test summary" })
+
+map("n", "<leader>tr", function()
+  require("neotest").maven.run_nearest()
+end, { desc = "Test run nearest" })
+
+map("n", "<leader>tf", function()
+  require("neotest").maven.run_file(vim.api.nvim_buf_get_name(0))
+end, { desc = "Test run file" })
+
+map("n", "<leader>ta", function()
+  require("neotest").maven.run_all()
+end, { desc = "Test run all" })
+
+map("n", "<leader>to", function()
+  require("neotest").output.open({ enter = true, auto_close = true })
+end, { desc = "Test output" })
+
+map("n", "<leader>tO", function()
+  require("neotest").output_panel.toggle()
+end, { desc = "Test output panel" })
+
+map("n", "<leader>tS", function()
+  require("neotest").run.stop()
+end, { desc = "Test stop" })
+
+map("n", "<leader>tA", function()
+  require("neotest").run.attach()
+end, { desc = "Test attach" })
+
 -- Tabs
 map("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "Tab new" })
 map("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Tab close" })
