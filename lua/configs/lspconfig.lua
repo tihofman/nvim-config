@@ -75,10 +75,11 @@ else
     on_attach = require("nvchad.configs.lspconfig").on_attach,
     capabilities = require("nvchad.configs.lspconfig").capabilities,
 
-    -- Use JDK 21 to run jdtls (jdtls doesn't support JDK 25 yet)
-    -- cmd_env = {
-    --   JAVA_HOME = "/opt/homebrew/opt/openjdk@21",
-    -- },
+    -- jdtls >= 1.63 needs Java 25+ to run; projects can still target older JDKs
+    cmd_env = {
+      JAVA_HOME = "/opt/homebrew/opt/openjdk",
+      PATH = "/opt/homebrew/opt/openjdk/bin:" .. (vim.env.PATH or ""),
+    },
 
     -- Modify the jdtls command for JDK compatibility
     on_new_config = function(new_config, new_root_dir)
