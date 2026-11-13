@@ -12,7 +12,7 @@ local servers = {
   "svelte",  -- Svelte/SvelteKit
 
   -- Java/JVM
-  -- Note: jdtls is configured separately below (installed via mason)
+  -- Note: jdtls is configured separately below
   "kotlin_lsp",
 
   -- Rust
@@ -24,40 +24,22 @@ local servers = {
 
 vim.lsp.enable(servers)
 
--- Setup nvim-java (patch is applied in plugin init)
+-- Setup nvim-java
 -- Wrap in pcall to gracefully handle any issues
 local java_setup_ok, java_setup_err = pcall(function()
-  require('java').setup({
-    -- Configure root markers for project detection
-    root_markers = {
-      'settings.gradle',
-      'settings.gradle.kts',
-      'pom.xml',
-      'build.gradle',
-      'mvnw',
-      'gradlew',
-      'build.gradle.kts',
-      '.git',
+  require("java").setup({
+    jdk = {
+      auto_install = false,
+      path = "/opt/homebrew/opt/openjdk",
     },
     lombok = {
       enable = true,
     },
-
-    -- Use mason-installed jdtls
     java_test = {
       enable = true,
     },
-
     java_debug_adapter = {
       enable = true,
-    },
-
-    jdk = {
-      auto_install = false,
-    },
-
-    notifications = {
-      dap = true,
     },
   })
 end)
@@ -68,36 +50,23 @@ if not java_setup_ok then
     vim.log.levels.WARN
   )
 else
-  -- Setup jdtls (enhanced by nvim-java if setup succeeded)
-  -- jdtls is installed via mason
-  local lspconfig = require("lspconfig")
-  lspconfig.jdtls.setup({
-    on_attach = require("nvchad.configs.lspconfig").on_attach,
-    capabilities = require("nvchad.configs.lspconfig").capabilities,
-
-    -- jdtls >= 1.63 needs Java 25+ to run; projects can still target older JDKs
-    cmd_env = {
-      JAVA_HOME = "/opt/homebrew/opt/openjdk",
-      PATH = "/opt/homebrew/opt/openjdk/bin:" .. (vim.env.PATH or ""),
+  -- Setup jdtls using native vim.lsp.config API
+  vim.lsp.config("jdtls", {
+    root_markers = {
+      "settings.gradle",
+      "settings.gradle.kts",
+      "pom.xml",
+      "build.gradle",
+      "mvnw",
+      "gradlew",
+      "build.gradle.kts",
+      ".git",
     },
-
-    -- Modify the jdtls command for JDK compatibility
-    on_new_config = function(new_config, new_root_dir)
-      -- Insert --enable-native-access flag after 'java' command
-      -- to suppress native access warnings
-      table.insert(new_config.cmd, 2, '--enable-native-access=ALL-UNNAMED')
-
-      -- Ensure JDK 21 is used to run jdtls
-      -- new_config.cmd_env = new_config.cmd_env or {}
-      -- new_config.cmd_env.JAVA_HOME = "/opt/homebrew/opt/openjdk@21"
-      -- new_config.cmd_env.PATH = "/opt/homebrew/opt/openjdk@21/bin:" .. (vim.env.PATH or "")
-    end,
-
-    -- Handlers to suppress verbose status messages
     handlers = {
-      ['language/status'] = function() end,
+      ["language/status"] = function() end,
     },
   })
+  vim.lsp.enable("jdtls")
 end
 
 -- read :h vim.lsp.config for changing options of lsp servers

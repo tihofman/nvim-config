@@ -6,18 +6,16 @@ return {
   },
   {
     'nvim-java/nvim-java',
-    -- Pinned to v3: v4 is a breaking rewrite (bundles core/refactor/test/dap, drops mason patches)
-    commit = "7c2e81caa301b0d1bc7992b88981af883b3b5d6b",
-    lazy = false,  -- Load on startup (patch is applied in init.lua)
+    version = '^4',
+    lazy = false,
     dependencies = {
-      'nvim-java/lua-async-await',
-      { 'nvim-java/nvim-java-core', commit = "401bf7683012a25929a359deec418f36beb876e2" },
-      'nvim-java/nvim-java-test',
-      'nvim-java/nvim-java-dap',
-      'nvim-java/nvim-java-refactor',
       'MunifTanjim/nui.nvim',
-      'neovim/nvim-lspconfig',
       'mfussenegger/nvim-dap',
+      {
+        'JavaHello/spring-boot.nvim',
+        commit = '218c0c26c14d99feca778e4d13f5ec3e8b1b60f0',
+      },
+      'neovim/nvim-lspconfig',
     },
   },
   {
